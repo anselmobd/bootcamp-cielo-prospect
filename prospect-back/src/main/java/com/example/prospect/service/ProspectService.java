@@ -38,7 +38,14 @@ public class ProspectService {
         if (exists) {
             throw new IllegalStateException("Já existe pessoa física com CPF: " + cpf);
         }
-        return this.pessoaFisicaRepository.save(pessoaFisica);
+        try {
+            return this.pessoaFisicaRepository.save(pessoaFisica);
+        } catch (Exception e) {
+            String messageError;
+            messageError = "Erro ao criar pessoa física com os dados informados, causa: " +
+                    e.getMessage();
+            throw new IllegalStateException(messageError, e);
+        }
     }
 
     public void deletePessoaFisica(long id) {
