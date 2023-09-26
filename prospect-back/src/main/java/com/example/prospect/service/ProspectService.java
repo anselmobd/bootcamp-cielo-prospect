@@ -1,6 +1,7 @@
 package com.example.prospect.service;
 
 import com.example.prospect.entity.PessoaFisica;
+import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ProspectService {
     public PessoaFisica getPessoaFisica(long id) {
         Optional<PessoaFisica> pessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (pessoaFisica.isEmpty()) {
-            throw new IllegalStateException("id não encontrado: " + id);
+            throw new PessoaNotFoundException();
         }
         return pessoaFisica.get();
     }
@@ -51,7 +52,7 @@ public class ProspectService {
     public void deletePessoaFisica(long id) {
         boolean exists = this.pessoaFisicaRepository.existsById(id);
         if (!exists) {
-            throw new IllegalStateException("id não encontrado: " + id);
+            throw new PessoaNotFoundException();
         }
         this.pessoaFisicaRepository.deleteById(id);
     }
@@ -59,7 +60,7 @@ public class ProspectService {
     public PessoaFisica updatePessoaFisica(@RequestBody PessoaFisica pessoaFisica, @PathVariable long id) {
         Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (optionalPessoaFisica.isEmpty())
-            throw new IllegalStateException("id não encontrado: " + id);
+            throw new PessoaNotFoundException();
 
         if (pessoaFisica.getCpf() != null)
             optionalPessoaFisica.get().setCpf(pessoaFisica.getCpf());
