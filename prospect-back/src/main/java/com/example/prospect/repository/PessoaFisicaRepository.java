@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface PessoaFisicaRepository
         extends JpaRepository<PessoaFisica, Long> {
 
-    Optional<PessoaFisica> getPessoaFisicaByCpf(String cpf);
+    Optional<PessoaFisica> findPessoaFisicaByCpf(String cpf);
 }
