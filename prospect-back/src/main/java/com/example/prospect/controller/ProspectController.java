@@ -44,4 +44,13 @@ public class ProspectController {
     public void  addPessoaFisica(@RequestBody PessoaFisica pessoaFisica) {
         this.prospectService.addPessoaFisica(pessoaFisica);
     }
+
+    @Operation(
+            summary = "Apaga pessoa física por id",
+            description = "Apaga os dados de uma pessoa física pelo id.")
+    @DeleteMapping("/pessoa_fisica/{id}")
+    public void deletePessoaFisica(@PathVariable long id) {
+        this.prospectService.deletePessoaFisica(id);
+    }
+
 }

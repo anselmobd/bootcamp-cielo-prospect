@@ -4,7 +4,6 @@ import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.repository.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,16 +22,24 @@ public class ProspectService {
         return this.pessoaFisicaRepository.findAll();
     }
 
-    public PessoaFisica getPessoaFisica(@PathVariable long id) {
+    public PessoaFisica getPessoaFisica(long id) {
         Optional<PessoaFisica> pessoaFisica = this.pessoaFisicaRepository.findById(id);
 
-        if (pessoaFisica.isEmpty())
+        if (pessoaFisica.isEmpty()) {
             throw new IllegalStateException("id não encontrado: " + id);
-
+        }
         return pessoaFisica.get();
     }
 
     public void addPessoaFisica(PessoaFisica pessoaFisica) {
         this.pessoaFisicaRepository.save(pessoaFisica);
+    }
+
+    public void deletePessoaFisica(long id) {
+        boolean exists = this.pessoaFisicaRepository.existsById(id);
+        if (!exists) {
+            throw new IllegalStateException("id não encontrado: " + id);
+        }
+        this.pessoaFisicaRepository.deleteById(id);
     }
 }
