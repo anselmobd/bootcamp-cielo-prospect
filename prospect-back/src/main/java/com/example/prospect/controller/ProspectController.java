@@ -53,18 +53,11 @@ public class ProspectController {
         this.prospectService.deletePessoaFisica(id);
     }
 
-//    @PutMapping("/pessoa_fisica/{id}")
-//    public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable long id) {
-//
-//        Optional<Student> studentOptional = studentRepository.findById(id);
-//
-//        if (studentOptional.isEmpty())
-//            return ResponseEntity.notFound().build();
-//
-//        student.setId(id);
-//
-//        studentRepository.save(student);
-//
-//        return ResponseEntity.noContent().build();
-//    }
+    @Operation(
+            summary = "Atualiza pessoa física por id",
+            description = "Atualiza dados de uma pessoa física pelo id.")
+    @PutMapping("/pessoa_fisica/{id}")
+    public PessoaFisica updatePessoaFisica(@RequestBody PessoaFisica pessoaFisica, @PathVariable long id) {
+        return this.prospectService.updatePessoaFisica(pessoaFisica, id);
+    }
 }
