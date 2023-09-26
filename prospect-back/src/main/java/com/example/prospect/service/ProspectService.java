@@ -26,10 +26,13 @@ public class ProspectService {
     public PessoaFisica getPessoaFisica(@PathVariable long id) {
         Optional<PessoaFisica> pessoaFisica = this.pessoaFisicaRepository.findById(id);
 
-//        if (pessoaFisica.isEmpty())
-//            throw new PessoaFisicaNotFoundException("id-" + id);
+        if (pessoaFisica.isEmpty())
+            throw new IllegalStateException("id não encontrado: " + id);
 
         return pessoaFisica.get();
     }
 
+    public void addPessoaFisica(PessoaFisica pessoaFisica) {
+        this.pessoaFisicaRepository.save(pessoaFisica);
+    }
 }
