@@ -1,4 +1,3 @@
-# H2
 spring:
   datasource:
     url: jdbc:h2:mem:cielodb
@@ -15,3 +14,7 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+
+server:
+  error:
+    include-message: always
