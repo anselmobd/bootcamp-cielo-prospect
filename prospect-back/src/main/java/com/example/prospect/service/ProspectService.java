@@ -34,9 +34,8 @@ public class ProspectService {
 
     public PessoaFisica addPessoaFisica(PessoaFisica pessoaFisica) {
         String cpf = pessoaFisica.getCpf();
-        Optional<PessoaFisica> optionalPessoaFisica =
-                this.pessoaFisicaRepository.findPessoaFisicaByCpf(cpf);
-        if (optionalPessoaFisica.isPresent()) {
+        boolean exists = this.pessoaFisicaRepository.existsByCpf(cpf);
+        if (exists) {
             throw new IllegalStateException("Já existe pessoa física com CPF: " + cpf);
         }
         return this.pessoaFisicaRepository.save(pessoaFisica);
