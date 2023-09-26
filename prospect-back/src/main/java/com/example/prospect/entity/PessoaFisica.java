@@ -1,9 +1,6 @@
 package com.example.prospect.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,6 +14,7 @@ public class PessoaFisica {
 
     @NotBlank(message = "CPF é obrigatório")
     @Size(min = 11, max = 11, message = "CPF deve ter 11 dígitos")
+    @Column(unique=true)
     private String cpf;
 
     @NotBlank(message = "MCC é obrigatório")
