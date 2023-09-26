@@ -31,8 +31,8 @@ public class ProspectService {
         return pessoaFisica.get();
     }
 
-    public void addPessoaFisica(PessoaFisica pessoaFisica) {
-        this.pessoaFisicaRepository.save(pessoaFisica);
+    public PessoaFisica addPessoaFisica(PessoaFisica pessoaFisica) {
+        return this.pessoaFisicaRepository.save(pessoaFisica);
     }
 
     public void deletePessoaFisica(long id) {

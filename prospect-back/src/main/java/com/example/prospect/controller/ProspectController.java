@@ -41,8 +41,8 @@ public class ProspectController {
             summary = "Cria pessoa física",
             description = "Insere os dados de uma pessoa física.")
     @PostMapping("/pessoa_fisica")
-    public void  addPessoaFisica(@RequestBody PessoaFisica pessoaFisica) {
-        this.prospectService.addPessoaFisica(pessoaFisica);
+    public PessoaFisica addPessoaFisica(@RequestBody PessoaFisica pessoaFisica) {
+        return this.prospectService.addPessoaFisica(pessoaFisica);
     }
 
     @Operation(
@@ -53,4 +53,18 @@ public class ProspectController {
         this.prospectService.deletePessoaFisica(id);
     }
 
+//    @PutMapping("/pessoa_fisica/{id}")
+//    public ResponseEntity<Object> updateStudent(@RequestBody Student student, @PathVariable long id) {
+//
+//        Optional<Student> studentOptional = studentRepository.findById(id);
+//
+//        if (studentOptional.isEmpty())
+//            return ResponseEntity.notFound().build();
+//
+//        student.setId(id);
+//
+//        studentRepository.save(student);
+//
+//        return ResponseEntity.noContent().build();
+//    }
 }
