@@ -17,7 +17,7 @@ public class ProspectService {
         this.pessoaFisicaRepository = pessoaFisicaRepository;
     }
 
-    public List<PessoaFisica> pessoaFisica() {
+    public List<PessoaFisica> getPessoasFisicas() {
         return this.pessoaFisicaRepository.findAll();
     }
 

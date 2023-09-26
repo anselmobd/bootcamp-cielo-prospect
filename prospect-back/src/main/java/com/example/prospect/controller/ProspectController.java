@@ -27,8 +27,8 @@ public class ProspectController {
             summary = "Pessoa física",
             description = "Teste.")
     @GetMapping("/pessoa_fisica")
-    public List<PessoaFisica> pessoaFisica() {
-        return this.prospectService.pessoaFisica();
+    public List<PessoaFisica> getPessoasFisicas() {
+        return this.prospectService.getPessoasFisicas();
     }
 
 }
