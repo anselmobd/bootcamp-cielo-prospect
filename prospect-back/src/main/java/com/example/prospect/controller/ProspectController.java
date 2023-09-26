@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Prospect", description = "APIs de envio e verificação de Feedbacks")
+@Tag(name = "Prospect", description = "APIs de apoio à prospecção de clientes")
 @RestController
 @RequestMapping("/api/v1")
 public class ProspectController {
