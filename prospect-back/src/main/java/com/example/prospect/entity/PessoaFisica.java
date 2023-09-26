@@ -14,19 +14,22 @@ public class PessoaFisica {
 
     @NotBlank(message = "CPF é obrigatório")
     @Size(min = 11, max = 11, message = "CPF deve ter 11 dígitos")
-    @Column(unique=true)
+    @Column(unique = true, length = 11)
     private String cpf;
 
     @NotBlank(message = "MCC é obrigatório")
     @Size(max = 4, message = "MCC deve ter no máximo 4 dígitos")
+    @Column(length = 4)
     private String mcc;
 
     @NotBlank(message = "Nome é obrigatório")
     @Size(max = 50, message = "Nome deve ter no máximo 50 caracteres")
+    @Column(length = 50)
     private String nome;
 
     @NotBlank(message = "E-mail é obrigatório")
     @Email(message = "E-mail não é valido", regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
+    @Column(length = 50)
     private String email;
 
     public PessoaFisica() {}
