@@ -4,7 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class PessoaFisica {
@@ -14,15 +16,19 @@ public class PessoaFisica {
     private long id;
 
     @NotBlank(message = "CPF é obrigatório")
+    @Size(min = 11, max = 11, message = "CPF deve ter 11 dígitos")
     private String cpf;
 
     @NotBlank(message = "MCC é obrigatório")
+    @Size(max = 4, message = "MCC deve ter no máximo 4 dígitos")
     private String mcc;
 
     @NotBlank(message = "Nome é obrigatório")
+    @Size(max = 50, message = "Nome deve ter no máximo 50 caracteres")
     private String nome;
 
     @NotBlank(message = "E-mail é obrigatório")
+    @Email(message = "E-mail não é valido", regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     private String email;
 
     public PessoaFisica() {}
