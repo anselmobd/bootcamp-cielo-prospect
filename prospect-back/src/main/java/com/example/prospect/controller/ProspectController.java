@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,11 +25,18 @@ public class ProspectController {
     }
 
     @Operation(
-            summary = "Pessoa física",
-            description = "Teste.")
+            summary = "Lista pessoas físicas",
+            description = "Lista todas as pessoas físicas cadastradas.")
     @GetMapping("/pessoa_fisica")
     public List<PessoaFisica> getPessoasFisicas() {
         return this.prospectService.getPessoasFisicas();
     }
 
+    @Operation(
+            summary = "Pega pessoa física por id",
+            description = "Pega dados de uma pessoa física pelo id.")
+    @GetMapping("/pessoa_fisica/{id}")
+    public PessoaFisica getPessoaFisica(@PathVariable long id) {
+        return this.prospectService.getPessoaFisica(id);
+    }
 }
