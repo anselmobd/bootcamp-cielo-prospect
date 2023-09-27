@@ -4,6 +4,7 @@ import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.service.ProspectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class ProspectController {
             summary = "Cria pessoa física",
             description = "Insere os dados de uma pessoa física.")
     @PostMapping("/pessoa_fisica")
-    public PessoaFisica addPessoaFisica(@RequestBody PessoaFisica pessoaFisica) {
+    public PessoaFisica addPessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) {
         return this.prospectService.addPessoaFisica(pessoaFisica);
     }
 
@@ -57,7 +58,7 @@ public class ProspectController {
             summary = "Atualiza pessoa física por id",
             description = "Atualiza dados de uma pessoa física pelo id.")
     @PutMapping("/pessoa_fisica/{id}")
-    public PessoaFisica updatePessoaFisica(@RequestBody PessoaFisica pessoaFisica, @PathVariable long id) {
+    public PessoaFisica updatePessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica, @PathVariable long id) {
         return this.prospectService.updatePessoaFisica(pessoaFisica, id);
     }
 }

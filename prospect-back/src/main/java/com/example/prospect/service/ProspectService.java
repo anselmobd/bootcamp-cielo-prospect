@@ -1,7 +1,6 @@
 package com.example.prospect.service;
 
 import com.example.prospect.entity.PessoaFisica;
-import com.example.prospect.exception.PessoaNotAcceptableException;
 import com.example.prospect.exception.PessoaConflictException;
 import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaFisicaRepository;
@@ -36,20 +35,13 @@ public class ProspectService {
     }
 
     public PessoaFisica addPessoaFisica(PessoaFisica pessoaFisica)
-            throws PessoaConflictException, PessoaNotAcceptableException {
+            throws PessoaConflictException {
         String cpf = pessoaFisica.getCpf();
         boolean exists = this.pessoaFisicaRepository.existsByCpf(cpf);
         if (exists) {
             throw new PessoaConflictException("Já existe pessoa física com CPF: " + cpf);
         }
-        try {
-            return this.pessoaFisicaRepository.save(pessoaFisica);
-        } catch (Exception e) {
-            String messageError;
-            messageError = "Erro ao criar pessoa física com os dados informados, causa: " +
-                    e.getMessage();
-            throw new PessoaNotAcceptableException(messageError);
-        }
+        return this.pessoaFisicaRepository.save(pessoaFisica);
     }
 
     public void deletePessoaFisica(long id) throws PessoaNotFoundException {
@@ -62,7 +54,7 @@ public class ProspectService {
 
     public PessoaFisica updatePessoaFisica(
             @RequestBody PessoaFisica pessoaFisica, @PathVariable long id
-    ) throws PessoaNotFoundException, PessoaConflictException, PessoaNotAcceptableException {
+    ) throws PessoaNotFoundException, PessoaConflictException {
         Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (optionalPessoaFisica.isEmpty())
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
@@ -82,13 +74,6 @@ public class ProspectService {
         if (pessoaFisica.getEmail() != null)
             optionalPessoaFisica.get().setEmail(pessoaFisica.getEmail());
 
-        try {
-            return this.pessoaFisicaRepository.save(optionalPessoaFisica.get());
-        } catch (Exception e) {
-            throw new PessoaNotAcceptableException(
-                    "Erro ao alterar dados de pessoa física com os dados informados, causa: " +
-                    e.getMessage()
-            );
-        }
+        return this.pessoaFisicaRepository.save(optionalPessoaFisica.get());
     }
 }

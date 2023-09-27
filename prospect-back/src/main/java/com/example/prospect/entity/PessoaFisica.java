@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @Entity
 public class PessoaFisica {
 
@@ -19,12 +21,12 @@ public class PessoaFisica {
     private String cpf;
 
     @NotBlank(message = "MCC é obrigatório")
-    @Size(min = 1, max = 4, message = "MCC deve ter no máximo 4 dígitos")
+    @Size(max = 4, message = "MCC deve ter no máximo 4 caracteres")
     @Column(length = 4)
     private String mcc;
 
     @NotBlank(message = "Nome é obrigatório")
-    @Size(min = 1, max = 50, message = "Nome deve ter no máximo 50 caracteres")
+    @Size(max = 50, message = "Nome deve ter no máximo 50 caracteres")
     @Column(length = 50)
     private String nome;
 
@@ -67,11 +69,7 @@ public class PessoaFisica {
     }
 
     public void setMcc(String mcc) {
-        try {
-            this.mcc = mcc;
-        } catch (Exception e) {
-            throw new PessoaNotAcceptableException("MCC inválido");
-        }
+        this.mcc = mcc;
     }
 
     public String getNome() {
