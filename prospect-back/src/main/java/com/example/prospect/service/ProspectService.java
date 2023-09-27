@@ -4,6 +4,7 @@ import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.exception.PessoaConflictException;
 import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaFisicaRepository;
+import com.example.prospect.swagger.EntradaPessoaFisica;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,7 @@ public class ProspectService {
         return optionalPessoaFisica.get();
     }
 
-    public PessoaFisica addPessoaFisica(PessoaFisica pessoaFisica)
+    public PessoaFisica addPessoaFisica(EntradaPessoaFisica pessoaFisica)
             throws PessoaConflictException {
         String cpf = pessoaFisica.getCpf();
         boolean exists = this.pessoaFisicaRepository.existsByCpf(cpf);
@@ -53,7 +54,7 @@ public class ProspectService {
     }
 
     public PessoaFisica updatePessoaFisica(
-            @RequestBody PessoaFisica atualizaPessoaFisica, @PathVariable long id
+            @RequestBody EntradaPessoaFisica atualizaPessoaFisica, @PathVariable long id
     ) throws PessoaNotFoundException, PessoaConflictException {
         Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (optionalPessoaFisica.isEmpty())

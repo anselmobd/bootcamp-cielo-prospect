@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
+@Schema(name = "Pessoa física", description = "Dados de armazenamento de pessoa física")
 @Entity
 public class PessoaFisica {
 

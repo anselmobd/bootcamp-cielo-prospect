@@ -2,6 +2,7 @@ package com.example.prospect.controller;
 
 import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.service.ProspectService;
+import com.example.prospect.swagger.EntradaPessoaFisica;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -136,7 +137,7 @@ public class ProspectController {
             )
     })
     @PostMapping("/pessoa_fisica")
-    public PessoaFisica addPessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) {
+    public PessoaFisica addPessoaFisica(@Valid @RequestBody EntradaPessoaFisica pessoaFisica) {
         return this.prospectService.addPessoaFisica(pessoaFisica);
     }
 
@@ -241,7 +242,7 @@ public class ProspectController {
     })
     @PutMapping("/pessoa_fisica/{id}")
     public PessoaFisica updatePessoaFisica(
-            @Valid @RequestBody PessoaFisica pessoaFisica,
+            @Valid @RequestBody EntradaPessoaFisica pessoaFisica,
             @PathVariable
             @Parameter(name = "id", description = "Id da pessoa física", example = "1")
             long id) {
