@@ -178,8 +178,73 @@ public class ProspectController {
     @Operation(
             summary = "Atualiza pessoa física por id",
             description = "Atualiza dados de uma pessoa física pelo id.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Atualização executada com sucesso",
+                    content = {@Content(
+                            schema = @Schema(implementation = PessoaFisica.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Pessoa física não encontrada",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T22:24:49.540+00:00\"," +
+                                            "\"status\": 404," +
+                                            "\"error\": \"Not Found\"," +
+                                            "\"message\": \"Pessoa não encontrada com id: 1\"," +
+                                            "\"path\": \"/api/v1/pessoa_fisica/1\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "406",
+                    description = "Valores não válidos",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"status\": 406," +
+                                            "\"message\": \"Erro de validação do objeto\"," +
+                                            "\"errors\": [" +
+                                            "\"mcc: MCC é obrigatório\"" +
+                                            "]" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflito de informações no banco de dados",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T22:31:36.714+00:00\"," +
+                                            "\"status\": 409," +
+                                            "\"error\": \"Conflict\"," +
+                                            "\"message\": \"Já existe pessoa física com CPF: 00987654321\"," +
+                                            "\"path\": \"/api/v1/pessoa_fisica\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
     @PutMapping("/pessoa_fisica/{id}")
-    public PessoaFisica updatePessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica, @PathVariable long id) {
+    public PessoaFisica updatePessoaFisica(
+            @Valid @RequestBody PessoaFisica pessoaFisica,
+            @PathVariable
+            @Parameter(name = "id", description = "Id da pessoa física", example = "1")
+            long id) {
         return this.prospectService.updatePessoaFisica(pessoaFisica, id);
     }
 }
