@@ -3,9 +3,16 @@ package com.example.prospect.controller;
 import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.service.ProspectService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +40,39 @@ public class ProspectController {
     @Operation(
             summary = "Consulta pessoa física por id",
             description = "Consulta dados de uma pessoa física pelo id.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Consulta executada com sucesso",
+                    content = {@Content(
+                            schema = @Schema(implementation = PessoaFisica.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Pessoa física não encontrada",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T20:40:04.632+00:00\"," +
+                                            "\"status\": 404," +
+                                            "\"error\": \"Not Found\"," +
+                                            "\"message\": \"Pessoa não encontrada com id: 42\"," +
+                                            "\"path\": \"/api/v1/pessoa_fisica/42\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
     @GetMapping("/pessoa_fisica/{id}")
-    public PessoaFisica getPessoaFisica(@PathVariable long id) {
+    public PessoaFisica getPessoaFisica(
+            @PathVariable
+            @Parameter(name = "id", description = "Id da pessoa física", example = "1")
+            long id
+    ) {
         return this.prospectService.getPessoaFisica(id);
     }
 
