@@ -1,7 +1,7 @@
 package com.example.prospect.service;
 
 import com.example.prospect.entity.PessoaFisica;
-import com.example.prospect.exception.PessoaBadRequestException;
+import com.example.prospect.exception.PessoaNotAcceptableException;
 import com.example.prospect.exception.PessoaConflictException;
 import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaFisicaRepository;
@@ -47,7 +47,7 @@ public class ProspectService {
             String messageError;
             messageError = "Erro ao criar pessoa física com os dados informados, causa: " +
                     e.getMessage();
-            throw new PessoaBadRequestException(messageError);
+            throw new PessoaNotAcceptableException(messageError);
         }
     }
 
@@ -64,7 +64,13 @@ public class ProspectService {
         if (optionalPessoaFisica.isEmpty())
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
 
-        if (pessoaFisica.getCpf() != null)
+        boolean exists = false;
+        String cpf = pessoaFisica.getCpf();
+        if (cpf != null)
+            exists = this.pessoaFisicaRepository.existsByCpf(cpf);
+            if (exists) {
+                throw new PessoaConflictException("Já existe pessoa física com CPF: " + cpf);
+            }
             optionalPessoaFisica.get().setCpf(pessoaFisica.getCpf());
         if (pessoaFisica.getMcc() != null)
             optionalPessoaFisica.get().setMcc(pessoaFisica.getMcc());
@@ -79,7 +85,7 @@ public class ProspectService {
             String messageError;
             messageError = "Erro ao alterar dados de pessoa física com os dados informados, causa: " +
                     e.getMessage();
-            throw new PessoaBadRequestException(messageError);
+            throw new PessoaNotAcceptableException(messageError);
         }
     }
 }
