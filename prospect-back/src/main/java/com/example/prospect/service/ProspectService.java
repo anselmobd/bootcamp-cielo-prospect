@@ -53,27 +53,20 @@ public class ProspectService {
     }
 
     public PessoaFisica updatePessoaFisica(
-            @RequestBody PessoaFisica pessoaFisica, @PathVariable long id
+            @RequestBody PessoaFisica atualizaPessoaFisica, @PathVariable long id
     ) throws PessoaNotFoundException, PessoaConflictException {
         Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (optionalPessoaFisica.isEmpty())
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
 
-        boolean exists = false;
-        String cpf = pessoaFisica.getCpf();
-        if (cpf != null)
-            exists = this.pessoaFisicaRepository.existsByCpf(cpf);
-            if (exists) {
-                throw new PessoaConflictException("Já existe pessoa física com CPF: " + cpf);
-            }
-            optionalPessoaFisica.get().setCpf(pessoaFisica.getCpf());
-        if (pessoaFisica.getMcc() != null)
-            optionalPessoaFisica.get().setMcc(pessoaFisica.getMcc());
-        if (pessoaFisica.getNome() != null)
-            optionalPessoaFisica.get().setNome(pessoaFisica.getNome());
-        if (pessoaFisica.getEmail() != null)
-            optionalPessoaFisica.get().setEmail(pessoaFisica.getEmail());
+        String cpf = atualizaPessoaFisica.getCpf();
+        if (
+                !cpf.equals(optionalPessoaFisica.get().getCpf())
+                && this.pessoaFisicaRepository.existsByCpf(cpf)
+        ) {
+            throw new PessoaConflictException("Já existe pessoa física com CPF: " + cpf);
+        }
 
-        return this.pessoaFisicaRepository.save(optionalPessoaFisica.get());
+        return this.pessoaFisicaRepository.save(atualizaPessoaFisica);
     }
 }
