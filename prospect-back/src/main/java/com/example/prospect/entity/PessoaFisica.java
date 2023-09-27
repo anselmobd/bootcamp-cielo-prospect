@@ -19,17 +19,17 @@ public class PessoaFisica {
     private String cpf;
 
     @NotBlank(message = "MCC é obrigatório")
-    @Size(max = 4, message = "MCC deve ter no máximo 4 dígitos")
+    @Size(min = 1, max = 4, message = "MCC deve ter no máximo 4 dígitos")
     @Column(length = 4)
     private String mcc;
 
     @NotBlank(message = "Nome é obrigatório")
-    @Size(max = 50, message = "Nome deve ter no máximo 50 caracteres")
+    @Size(min = 1, max = 50, message = "Nome deve ter no máximo 50 caracteres")
     @Column(length = 50)
     private String nome;
 
     @NotBlank(message = "E-mail é obrigatório")
-    @Email(message = "E-mail não é valido", regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
+    @Email(message = "E-mail não é válido", regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     @Column(length = 50)
     private String email;
 
@@ -60,7 +60,6 @@ public class PessoaFisica {
         } catch (Exception e) {
             throw new PessoaNotAcceptableException("CPF inválido");
         }
-
     }
 
     public String getMcc() {
@@ -68,7 +67,11 @@ public class PessoaFisica {
     }
 
     public void setMcc(String mcc) {
-        this.mcc = mcc;
+        try {
+            this.mcc = mcc;
+        } catch (Exception e) {
+            throw new PessoaNotAcceptableException("MCC inválido");
+        }
     }
 
     public String getNome() {
