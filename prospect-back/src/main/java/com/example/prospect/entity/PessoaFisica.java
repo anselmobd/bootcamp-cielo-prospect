@@ -1,5 +1,6 @@
 package com.example.prospect.entity;
 
+import com.example.prospect.exception.PessoaNotAcceptableException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -53,8 +54,13 @@ public class PessoaFisica {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCpf(String cpf) throws PessoaNotAcceptableException {
+        try {
+            this.cpf = String.format("%011d", Integer.parseInt(cpf));
+        } catch (Exception e) {
+            throw new PessoaNotAcceptableException("CPF inválido");
+        }
+
     }
 
     public String getMcc() {
