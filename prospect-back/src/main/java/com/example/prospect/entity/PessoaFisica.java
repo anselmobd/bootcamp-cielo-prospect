@@ -1,10 +1,11 @@
 package com.example.prospect.entity;
 
-import com.example.prospect.exception.PessoaNotAcceptableException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
@@ -16,7 +17,8 @@ public class PessoaFisica {
     private long id;
 
     @NotBlank(message = "CPF é obrigatório")
-    @Size(min = 11, max = 11, message = "CPF deve ter 11 dígitos")
+    @Size(max = 11, message = "CPF deve ter 11 dígitos")
+    @Pattern(regexp = "^\\d+$")
     @Column(unique = true, length = 11)
     private String cpf;
 
@@ -56,12 +58,8 @@ public class PessoaFisica {
         return cpf;
     }
 
-    public void setCpf(String cpf) throws PessoaNotAcceptableException {
-        try {
-            this.cpf = String.format("%011d", Long.parseLong(cpf));
-        } catch (Exception e) {
-            throw new PessoaNotAcceptableException("CPF inválido");
-        }
+    public void setCpf(String cpf) {
+        this.cpf = StringUtils.leftPad(cpf, 11, "0");
     }
 
     public String getMcc() {
