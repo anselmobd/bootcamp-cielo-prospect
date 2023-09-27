@@ -141,10 +141,37 @@ public class ProspectController {
     }
 
     @Operation(
-            summary = "Apaga pessoa física por id",
-            description = "Apaga os dados de uma pessoa física pelo id.")
+            summary = "Exclusão de pessoa física por id",
+            description = "Exclusão dos dados de uma pessoa física pelo id.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Exclusão executada com sucesso"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Pessoa física não encontrada",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T22:24:19.540+00:00\"," +
+                                            "\"status\": 404," +
+                                            "\"error\": \"Not Found\"," +
+                                            "\"message\": \"Pessoa não encontrada com id: 1\"," +
+                                            "\"path\": \"/api/v1/pessoa_fisica/1\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
     @DeleteMapping("/pessoa_fisica/{id}")
-    public void deletePessoaFisica(@PathVariable long id) {
+    public void deletePessoaFisica(
+        @PathVariable
+        @Parameter(name = "id", description = "Id da pessoa física", example = "1")
+        long id
+    ) {
         this.prospectService.deletePessoaFisica(id);
     }
 
