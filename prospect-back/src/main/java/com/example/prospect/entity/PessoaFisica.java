@@ -1,5 +1,6 @@
 package com.example.prospect.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,27 +15,32 @@ public class PessoaFisica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Schema(example = "42")
     private long id;
 
     @NotBlank(message = "CPF é obrigatório")
-    @Size(max = 11, message = "CPF deve ter 11 dígitos")
+    @Size(min = 11, max = 11, message = "CPF deve ter 11 dígitos")
     @Pattern(regexp = "^\\d+$")
     @Column(unique = true, length = 11)
+    @Schema(example = "00987654321")
     private String cpf;
 
     @NotBlank(message = "MCC é obrigatório")
     @Size(max = 4, message = "MCC deve ter no máximo 4 caracteres")
     @Column(length = 4)
+    @Schema(example = "a1b2")
     private String mcc;
 
     @NotBlank(message = "Nome é obrigatório")
     @Size(max = 50, message = "Nome deve ter no máximo 50 caracteres")
     @Column(length = 50)
+    @Schema(example = "Fulano de Tal")
     private String nome;
 
     @NotBlank(message = "E-mail é obrigatório")
     @Email(message = "E-mail não é válido", regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$")
     @Column(length = 50)
+    @Schema(example = "fulano.tal@dominio.ccc")
     private String email;
 
     public PessoaFisica() {}
