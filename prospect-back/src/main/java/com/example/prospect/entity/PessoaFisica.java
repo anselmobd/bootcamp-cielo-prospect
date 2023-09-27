@@ -56,7 +56,7 @@ public class PessoaFisica {
 
     public void setCpf(String cpf) throws PessoaNotAcceptableException {
         try {
-            this.cpf = String.format("%011d", Integer.parseInt(cpf));
+            this.cpf = String.format("%011d", Long.parseLong(cpf));
         } catch (Exception e) {
             throw new PessoaNotAcceptableException("CPF inválido");
         }
