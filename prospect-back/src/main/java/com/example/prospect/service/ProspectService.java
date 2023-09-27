@@ -1,6 +1,8 @@
 package com.example.prospect.service;
 
 import com.example.prospect.entity.PessoaFisica;
+import com.example.prospect.exception.PessoaBadRequestException;
+import com.example.prospect.exception.PessoaConflictException;
 import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaFisicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +28,18 @@ public class ProspectService {
     }
 
     public PessoaFisica getPessoaFisica(long id) {
-        Optional<PessoaFisica> pessoaFisica = this.pessoaFisicaRepository.findById(id);
-        if (pessoaFisica.isEmpty()) {
+        Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
+        if (optionalPessoaFisica.isEmpty()) {
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
         }
-        return pessoaFisica.get();
+        return optionalPessoaFisica.get();
     }
 
     public PessoaFisica addPessoaFisica(PessoaFisica pessoaFisica) {
         String cpf = pessoaFisica.getCpf();
         boolean exists = this.pessoaFisicaRepository.existsByCpf(cpf);
         if (exists) {
-            throw new IllegalStateException("Já existe pessoa física com CPF: " + cpf);
+            throw new PessoaConflictException("Já existe pessoa física com CPF: " + cpf);
         }
         try {
             return this.pessoaFisicaRepository.save(pessoaFisica);
@@ -45,7 +47,7 @@ public class ProspectService {
             String messageError;
             messageError = "Erro ao criar pessoa física com os dados informados, causa: " +
                     e.getMessage();
-            throw new IllegalStateException(messageError, e);
+            throw new PessoaBadRequestException(messageError);
         }
     }
 
@@ -71,6 +73,13 @@ public class ProspectService {
         if (pessoaFisica.getEmail() != null)
             optionalPessoaFisica.get().setEmail(pessoaFisica.getEmail());
 
-        return this.pessoaFisicaRepository.save(optionalPessoaFisica.get());
+        try {
+            return this.pessoaFisicaRepository.save(optionalPessoaFisica.get());
+        } catch (Exception e) {
+            String messageError;
+            messageError = "Erro ao alterar dados de pessoa física com os dados informados, causa: " +
+                    e.getMessage();
+            throw new PessoaBadRequestException(messageError);
+        }
     }
 }

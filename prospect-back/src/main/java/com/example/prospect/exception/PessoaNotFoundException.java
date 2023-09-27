@@ -10,3 +10,19 @@ public class PessoaNotFoundException extends RuntimeException {
     }
     // ...
 }
+
+@ResponseStatus(value= HttpStatus.CONFLICT)  // 409
+public class PessoaConflictException extends RuntimeException {
+    public PessoaConflictException(String message) {
+        super(message);
+    }
+    // ...
+}
+
+@ResponseStatus(value= HttpStatus.BAD_REQUEST)  // 406
+public class PessoaBadRequestException extends RuntimeException {
+    public PessoaBadRequestException(String message) {
+        super(message);
+    }
+    // ...
+}
