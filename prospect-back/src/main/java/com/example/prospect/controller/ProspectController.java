@@ -89,7 +89,52 @@ public class ProspectController {
 
     @Operation(
             summary = "Cria pessoa física",
-            description = "Insere os dados de uma pessoa física.")
+            description = "Insere dados de uma pessoa física.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Inserção executada com sucesso",
+                    content = {@Content(
+                            schema = @Schema(implementation = PessoaFisica.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflito de informações no banco de dados",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T22:11:36.714+00:00\"," +
+                                            "\"status\": 409," +
+                                            "\"error\": \"Conflict\"," +
+                                            "\"message\": \"Já existe pessoa física com CPF: 00987654321\"," +
+                                            "\"path\": \"/api/v1/pessoa_fisica\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "406",
+                    description = "Valores não válidos",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"status\": 406," +
+                                            "\"message\": \"Erro de validação do objeto\"," +
+                                            "\"errors\": [" +
+                                            "\"mcc: MCC deve ter no máximo 4 caracteres\"," +
+                                            "\"nome: Nome é obrigatório\"" +
+                                            "]" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
     @PostMapping("/pessoa_fisica")
     public PessoaFisica addPessoaFisica(@Valid @RequestBody PessoaFisica pessoaFisica) {
         return this.prospectService.addPessoaFisica(pessoaFisica);
