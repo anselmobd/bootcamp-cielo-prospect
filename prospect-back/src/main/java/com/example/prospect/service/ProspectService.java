@@ -27,7 +27,7 @@ public class ProspectService {
         return this.pessoaFisicaRepository.findAll();
     }
 
-    public PessoaFisica getPessoaFisica(long id) {
+    public PessoaFisica getPessoaFisica(long id) throws PessoaNotFoundException {
         Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (optionalPessoaFisica.isEmpty()) {
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
@@ -35,7 +35,8 @@ public class ProspectService {
         return optionalPessoaFisica.get();
     }
 
-    public PessoaFisica addPessoaFisica(PessoaFisica pessoaFisica) {
+    public PessoaFisica addPessoaFisica(PessoaFisica pessoaFisica)
+            throws PessoaConflictException, PessoaNotAcceptableException {
         String cpf = pessoaFisica.getCpf();
         boolean exists = this.pessoaFisicaRepository.existsByCpf(cpf);
         if (exists) {
@@ -51,7 +52,7 @@ public class ProspectService {
         }
     }
 
-    public void deletePessoaFisica(long id) {
+    public void deletePessoaFisica(long id) throws PessoaNotFoundException {
         boolean exists = this.pessoaFisicaRepository.existsById(id);
         if (!exists) {
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
@@ -59,7 +60,9 @@ public class ProspectService {
         this.pessoaFisicaRepository.deleteById(id);
     }
 
-    public PessoaFisica updatePessoaFisica(@RequestBody PessoaFisica pessoaFisica, @PathVariable long id) {
+    public PessoaFisica updatePessoaFisica(
+            @RequestBody PessoaFisica pessoaFisica, @PathVariable long id
+    ) throws PessoaNotFoundException, PessoaConflictException, PessoaNotAcceptableException {
         Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (optionalPessoaFisica.isEmpty())
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
@@ -82,10 +85,10 @@ public class ProspectService {
         try {
             return this.pessoaFisicaRepository.save(optionalPessoaFisica.get());
         } catch (Exception e) {
-            String messageError;
-            messageError = "Erro ao alterar dados de pessoa física com os dados informados, causa: " +
-                    e.getMessage();
-            throw new PessoaNotAcceptableException(messageError);
+            throw new PessoaNotAcceptableException(
+                    "Erro ao alterar dados de pessoa física com os dados informados, causa: " +
+                    e.getMessage()
+            );
         }
     }
 }
