@@ -1,4 +1,4 @@
-package com.example.prospect.swagger;
+package com.example.prospect.entity.input;
 
 import com.example.prospect.entity.PessoaFisica;
 import io.swagger.v3.oas.annotations.media.Schema;

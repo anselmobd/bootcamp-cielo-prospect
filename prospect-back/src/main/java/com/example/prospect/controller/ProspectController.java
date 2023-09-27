@@ -2,7 +2,7 @@ package com.example.prospect.controller;
 
 import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.service.ProspectService;
-import com.example.prospect.swagger.EntradaPessoaFisica;
+import com.example.prospect.entity.input.EntradaPessoaFisica;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
