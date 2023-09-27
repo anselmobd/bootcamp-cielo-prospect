@@ -4,6 +4,7 @@ import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.service.ProspectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,6 +33,16 @@ public class ProspectController {
     @Operation(
             summary = "Lista pessoas físicas",
             description = "Lista todas as pessoas físicas cadastradas.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Consulta executada com sucesso",
+                    content = {@Content(
+                            array = @ArraySchema(schema = @Schema(implementation = PessoaFisica.class)),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
     @GetMapping("/pessoa_fisica")
     public List<PessoaFisica> getPessoasFisicas() {
         return this.prospectService.getPessoasFisicas();
