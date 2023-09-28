@@ -24,11 +24,11 @@ import java.util.List;
 @RequestMapping("/api/v1/pessoa_fisica")
 public class PessoaFisicaController {
 
-    private final PessoaFisicaService prospectService;
+    private final PessoaFisicaService pessoaFisicaService;
 
     @Autowired
     public PessoaFisicaController(PessoaFisicaService prospectService) {
-        this.prospectService = prospectService;
+        this.pessoaFisicaService = prospectService;
     }
 
     @Operation(
@@ -46,7 +46,7 @@ public class PessoaFisicaController {
     })
     @GetMapping
     public List<PessoaFisica> getPessoasFisicas() {
-        return this.prospectService.getPessoasFisicas();
+        return this.pessoaFisicaService.getPessoasFisicas();
     }
 
     @Operation(
@@ -85,7 +85,7 @@ public class PessoaFisicaController {
             @Parameter(name = "id", description = "Id da pessoa física", example = "1")
             long id
     ) {
-        return this.prospectService.getPessoaFisica(id);
+        return this.pessoaFisicaService.getPessoaFisica(id);
     }
 
     @Operation(
@@ -138,7 +138,7 @@ public class PessoaFisicaController {
     })
     @PostMapping
     public PessoaFisica addPessoaFisica(@Valid @RequestBody EntradaPessoaFisica pessoaFisica) {
-        return this.prospectService.addPessoaFisica(pessoaFisica);
+        return this.pessoaFisicaService.addPessoaFisica(pessoaFisica);
     }
 
     @Operation(
@@ -173,7 +173,7 @@ public class PessoaFisicaController {
         @Parameter(name = "id", description = "Id da pessoa física", example = "1")
         long id
     ) {
-        this.prospectService.deletePessoaFisica(id);
+        this.pessoaFisicaService.deletePessoaFisica(id);
     }
 
     @Operation(
@@ -246,6 +246,6 @@ public class PessoaFisicaController {
             @PathVariable
             @Parameter(name = "id", description = "Id da pessoa física", example = "1")
             long id) {
-        return this.prospectService.updatePessoaFisica(pessoaFisica, id);
+        return this.pessoaFisicaService.updatePessoaFisica(pessoaFisica, id);
     }
 }
