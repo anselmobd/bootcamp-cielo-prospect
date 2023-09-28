@@ -21,7 +21,7 @@ public class PessoaJuridicaTests {
     private Validator validator;
 
     public PessoaJuridicaTests() {
-        pessoaJuridica = PessoaJuridica.builder()
+        this.pessoaJuridica = PessoaJuridica.builder()
                 .cnpj("12345678000142")
                 .razao_social("Empresa Ltda.")
                 .mcc("a1b2")
@@ -29,6 +29,50 @@ public class PessoaJuridicaTests {
                 .nome("Fulano de Tal")
                 .email("fulano.tal@empresa.ccc")
                 .build();
+    }
+
+    @Test
+    public void PessoaJuridica_Cnpj_Valid() {
+        violations = new HashSet<>();
+
+        // Valores válidos
+        pessoaJuridica.setCnpj("");
+        violations.addAll(validator.validate(pessoaJuridica));
+        pessoaJuridica.setCnpj("1");
+        violations.addAll(validator.validate(pessoaJuridica));
+        pessoaJuridica.setCnpj("12345678901234");
+        violations.addAll(validator.validate(pessoaJuridica));
+
+        // Valores inválidos
+        pessoaJuridica.setCnpj(null);
+        violations.addAll(validator.validate(pessoaJuridica));
+        pessoaJuridica.setCnpj("text");
+        violations.addAll(validator.validate(pessoaJuridica));
+        pessoaJuridica.setCnpj("123456789012345");
+        violations.addAll(validator.validate(pessoaJuridica));
+
+        assertEquals(3, violations.stream().count());
+    }
+
+    @Test
+    public void PessoaJuridica_RazaoSocial_Valid() {
+        violations = new HashSet<>();
+
+        // Valores válidos
+        pessoaJuridica.setRazao_social("A");
+        violations.addAll(validator.validate(pessoaJuridica));
+        pessoaJuridica.setRazao_social("A".repeat(50));
+        violations.addAll(validator.validate(pessoaJuridica));
+
+        // Valores inválidos
+        pessoaJuridica.setRazao_social(null);
+        violations.addAll(validator.validate(pessoaJuridica));
+        pessoaJuridica.setRazao_social("");
+        violations.addAll(validator.validate(pessoaJuridica));
+        pessoaJuridica.setRazao_social("A".repeat(51));
+        violations.addAll(validator.validate(pessoaJuridica));
+
+        assertEquals(3, violations.stream().count());
     }
 
     @Test
