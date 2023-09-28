@@ -4,6 +4,7 @@ import com.example.prospect.service.FilaPessoaVersaoService;
 import com.example.prospect.util.PessoaVersao;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -41,8 +42,18 @@ public class FilaPessoaVersaoController {
             @ApiResponse(
                     responseCode = "404",
                     description = "A fila está vazia",
-                    content = {@Content(
-                            schema = @Schema()
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-28T22:37:56.551+00:00\"," +
+                                            "\"status\": 404," +
+                                            "\"error\": \"Not Found\"," +
+                                            "\"message\": \"Fila está vazia\"," +
+                                            "\"path\": \"/api/v1/fila_pessoa\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
                     )}
             )
     })
