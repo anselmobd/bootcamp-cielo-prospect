@@ -6,9 +6,11 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
+@Getter
 @Validated
 @Schema(name = "Pessoa jurídica", description = "Dados de armazenamento de pessoa jurídica")
 @Entity
@@ -72,52 +74,24 @@ public class PessoaJuridica {
         this.id = id;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
     public void setCnpj(String cnpj) {
         this.cnpj = StringUtils.leftPad(cnpj, 14, "0");
-    }
-
-    public String getRazao_social() {
-        return razao_social;
     }
 
     public void setRazao_social(String razao_social) {
         this.razao_social = razao_social;
     }
 
-    public String getMcc() {
-        return mcc;
-    }
-
     public void setMcc(String mcc) {
         this.mcc = mcc;
-    }
-
-    public String getCpf() {
-        return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = StringUtils.leftPad(cpf, 11, "0");
     }
 
-    public String getNome() {
-        return nome;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public void setEmail(String email) {
