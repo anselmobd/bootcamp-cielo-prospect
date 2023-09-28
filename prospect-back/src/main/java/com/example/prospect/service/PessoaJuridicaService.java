@@ -1,8 +1,6 @@
 package com.example.prospect.service;
 
-import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.entity.PessoaJuridica;
-import com.example.prospect.entity.input.EntradaPessoaFisica;
 import com.example.prospect.entity.input.EntradaPessoaJuridica;
 import com.example.prospect.exception.PessoaConflictException;
 import com.example.prospect.exception.PessoaNotFoundException;
@@ -51,6 +49,25 @@ public class PessoaJuridicaService {
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
         }
         this.pessoaJuridicaRepository.deleteById(id);
+    }
+
+    public PessoaJuridica updatePessoaJuridica(
+            EntradaPessoaJuridica atualizaPessoaJuridica, long id
+    ) throws PessoaNotFoundException, PessoaConflictException {
+        Optional<PessoaJuridica> optionalPessoaJuridica = this.pessoaJuridicaRepository.findById(id);
+        if (optionalPessoaJuridica.isEmpty())
+            throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
+
+        String cnpj = atualizaPessoaJuridica.getCnpj();
+        if (
+                !cnpj.equals(optionalPessoaJuridica.get().getCnpj())
+                        && this.pessoaJuridicaRepository.existsByCnpj(cnpj)
+        ) {
+            throw new PessoaConflictException("Já existe pessoa jurídica com CNPJ: " + cnpj);
+        }
+
+        atualizaPessoaJuridica.setId(id);
+        return this.pessoaJuridicaRepository.save(atualizaPessoaJuridica);
     }
 
 }
