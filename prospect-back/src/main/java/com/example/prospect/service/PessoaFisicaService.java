@@ -54,7 +54,7 @@ public class PessoaFisicaService {
     }
 
     public PessoaFisica updatePessoaFisica(
-            @RequestBody EntradaPessoaFisica atualizaPessoaFisica, @PathVariable long id
+            EntradaPessoaFisica atualizaPessoaFisica, long id
     ) throws PessoaNotFoundException, PessoaConflictException {
         Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
         if (optionalPessoaFisica.isEmpty())
