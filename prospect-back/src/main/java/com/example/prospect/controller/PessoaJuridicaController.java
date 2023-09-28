@@ -6,6 +6,7 @@ import com.example.prospect.entity.input.EntradaPessoaFisica;
 import com.example.prospect.entity.input.EntradaPessoaJuridica;
 import com.example.prospect.service.PessoaJuridicaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -49,6 +50,45 @@ public class PessoaJuridicaController {
     @GetMapping
     public List<PessoaJuridica> getPessoasJuridicas() {
         return this.pessoaJuridicaService.getPessoasJuridicas();
+    }
+
+    @Operation(
+            summary = "Consulta pessoa jurídica por id",
+            description = "Consulta dados de uma pessoa jurídica pelo id.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Consulta executada com sucesso",
+                    content = {@Content(
+                            schema = @Schema(implementation = PessoaJuridica.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Pessoa jurídica não encontrada",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T22:40:04.632+00:00\"," +
+                                            "\"status\": 404," +
+                                            "\"error\": \"Not Found\"," +
+                                            "\"message\": \"Pessoa não encontrada com id: 42\"," +
+                                            "\"path\": \"/api/v1/pessoa_juridica/42\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
+    @GetMapping("/{id}")
+    public PessoaJuridica getPessoaJuridica(
+            @PathVariable
+            @Parameter(name = "id", description = "Id da pessoa jurídica", example = "1")
+            long id
+    ) {
+        return this.pessoaJuridicaService.getPessoaJuridica(id);
     }
 
     @Operation(

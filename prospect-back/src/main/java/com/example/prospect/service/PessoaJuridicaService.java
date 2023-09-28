@@ -5,11 +5,13 @@ import com.example.prospect.entity.PessoaJuridica;
 import com.example.prospect.entity.input.EntradaPessoaFisica;
 import com.example.prospect.entity.input.EntradaPessoaJuridica;
 import com.example.prospect.exception.PessoaConflictException;
+import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaJuridicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PessoaJuridicaService {
@@ -23,6 +25,14 @@ public class PessoaJuridicaService {
 
     public List<PessoaJuridica> getPessoasJuridicas() {
         return this.pessoaJuridicaRepository.findAll();
+    }
+
+    public PessoaJuridica getPessoaJuridica(long id) throws PessoaNotFoundException {
+        Optional<PessoaJuridica> optionalPessoaJuridica = this.pessoaJuridicaRepository.findById(id);
+        if (optionalPessoaJuridica.isEmpty()) {
+            throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
+        }
+        return optionalPessoaJuridica.get();
     }
 
     public PessoaJuridica addPessoaJuridica(EntradaPessoaJuridica pessoaJuridica)
