@@ -21,7 +21,7 @@ import java.util.List;
 
 @Tag(name = "Pessoa Física", description = "APIs de apoio à prospecção de clientes pessoa física")
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/pessoa_fisica")
 public class PessoaFisicaController {
 
     private final PessoaFisicaService prospectService;
@@ -44,7 +44,7 @@ public class PessoaFisicaController {
                     )}
             )
     })
-    @GetMapping("/pessoa_fisica")
+    @GetMapping
     public List<PessoaFisica> getPessoasFisicas() {
         return this.prospectService.getPessoasFisicas();
     }
@@ -79,7 +79,7 @@ public class PessoaFisicaController {
                     )}
             )
     })
-    @GetMapping("/pessoa_fisica/{id}")
+    @GetMapping("/{id}")
     public PessoaFisica getPessoaFisica(
             @PathVariable
             @Parameter(name = "id", description = "Id da pessoa física", example = "1")
@@ -136,7 +136,7 @@ public class PessoaFisicaController {
                     )}
             )
     })
-    @PostMapping("/pessoa_fisica")
+    @PostMapping
     public PessoaFisica addPessoaFisica(@Valid @RequestBody EntradaPessoaFisica pessoaFisica) {
         return this.prospectService.addPessoaFisica(pessoaFisica);
     }
@@ -167,7 +167,7 @@ public class PessoaFisicaController {
                     )}
             )
     })
-    @DeleteMapping("/pessoa_fisica/{id}")
+    @DeleteMapping("/{id}")
     public void deletePessoaFisica(
         @PathVariable
         @Parameter(name = "id", description = "Id da pessoa física", example = "1")
@@ -240,7 +240,7 @@ public class PessoaFisicaController {
                     )}
             )
     })
-    @PutMapping("/pessoa_fisica/{id}")
+    @PutMapping("/{id}")
     public PessoaFisica updatePessoaFisica(
             @Valid @RequestBody EntradaPessoaFisica pessoaFisica,
             @PathVariable
