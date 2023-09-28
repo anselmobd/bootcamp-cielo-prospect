@@ -6,11 +6,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 @Getter
+@AllArgsConstructor
+@Builder
 @Validated
 @Schema(name = "Pessoa física", description = "Dados de armazenamento de pessoa física")
 @Entity
