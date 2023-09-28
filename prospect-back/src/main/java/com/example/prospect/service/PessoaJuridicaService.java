@@ -44,4 +44,13 @@ public class PessoaJuridicaService {
         }
         return this.pessoaJuridicaRepository.save(pessoaJuridica);
     }
+
+    public void deletePessoaJuridica(long id) throws PessoaNotFoundException {
+        boolean exists = this.pessoaJuridicaRepository.existsById(id);
+        if (!exists) {
+            throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
+        }
+        this.pessoaJuridicaRepository.deleteById(id);
+    }
+
 }

@@ -144,4 +144,39 @@ public class PessoaJuridicaController {
         return this.pessoaJuridicaService.addPessoaJuridica(pessoaJuridica);
     }
 
+    @Operation(
+            summary = "Exclusão de pessoa jurídica por id",
+            description = "Exclusão dos dados de uma pessoa jurídica pelo id.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Exclusão executada com sucesso"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Pessoa jurídica não encontrada",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T23:24:19.540+00:00\"," +
+                                            "\"status\": 404," +
+                                            "\"error\": \"Not Found\"," +
+                                            "\"message\": \"Pessoa não encontrada com id: 1\"," +
+                                            "\"path\": \"/api/v1/pessoa_juridica/1\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
+    @DeleteMapping("/{id}")
+    public void deletePessoaJuridica(
+            @PathVariable
+            @Parameter(name = "id", description = "Id da pessoa jurídica", example = "1")
+            long id
+    ) {
+        this.pessoaJuridicaService.deletePessoaJuridica(id);
+    }
+
 }
