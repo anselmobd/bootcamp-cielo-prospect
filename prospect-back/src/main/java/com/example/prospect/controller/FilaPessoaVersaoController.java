@@ -2,9 +2,15 @@ package com.example.prospect.controller;
 
 import com.example.prospect.service.FilaPessoaVersaoService;
 import com.example.prospect.util.PessoaVersao;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +26,28 @@ public class FilaPessoaVersaoController {
         this.filaPessoaVersaoService = filaPessoaVersaoService;
     }
 
-    @PostMapping
-    public PessoaVersao outFila() {
-        return filaPessoaVersaoService.outFila();
+    @Operation(
+            summary = "Retira pessoa da fila",
+            description = "Le e retira da fila a identificação da pessoa da vez.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Pessoa retirada com sucesso",
+                    content = {@Content(
+                            schema = @Schema(implementation = PessoaVersao.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "A fila está vazia",
+                    content = {@Content(
+                            schema = @Schema()
+                    )}
+            )
+    })
+    @GetMapping
+    public PessoaVersao retiraPessoaVersao() {
+        return filaPessoaVersaoService.retiraPessoaVersao();
     }
 }
