@@ -1,9 +1,8 @@
 package com.example.prospect.controller;
 
 import com.example.prospect.entity.PessoaFisica;
-import com.example.prospect.entity.PessoaJuridica;
-import com.example.prospect.service.ProspectService;
 import com.example.prospect.entity.input.EntradaPessoaFisica;
+import com.example.prospect.service.ProspectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -249,24 +248,4 @@ public class ProspectController {
             long id) {
         return this.prospectService.updatePessoaFisica(pessoaFisica, id);
     }
-
-    @Operation(
-            summary = "Lista pessoas jurídicas",
-            description = "Lista todas as pessoas jurídicas cadastradas."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Consulta executada com sucesso",
-                    content = {@Content(
-                            array = @ArraySchema(schema = @Schema(implementation = PessoaJuridica.class)),
-                            mediaType = MediaType.APPLICATION_JSON_VALUE
-                    )}
-            )
-    })
-    @GetMapping("/pessoa_juridica")
-    public List<PessoaJuridica> getPessoasJuridicas() {
-        return this.prospectService.getPessoasJuridicas();
-    }
-
 }
