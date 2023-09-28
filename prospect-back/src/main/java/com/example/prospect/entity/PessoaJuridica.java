@@ -21,7 +21,7 @@ public class PessoaJuridica {
 
     @NotBlank(message = "CNPJ é obrigatório")
     @Size(min = 14, max = 14, message = "CNPJ deve ter 14 dígitos")
-    @Pattern(regexp = "^\\d+$")
+    @Pattern(regexp = "^\\d+$", message = "CNPJ deve ser totalmente numérico")
     @Column(unique = true, length = 14)
     @Schema(example = "12345678000142")
     private String cnpj;
@@ -40,7 +40,7 @@ public class PessoaJuridica {
 
     @NotBlank(message = "CPF do contato do estabelecimento é obrigatório")
     @Size(min = 11, max = 11, message = "CPF do contato do estabelecimento deve ter 11 dígitos")
-    @Pattern(regexp = "^\\d+$")
+    @Pattern(regexp = "^\\d+$", message = "CPF deve ser totalmente numérico")
     @Column(unique = true, length = 11)
     @Schema(example = "00987654321")
     private String cpf;
