@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProspectService {
+public class PessoaFisicaService {
 
     private final PessoaFisicaRepository pessoaFisicaRepository;
 
     @Autowired
-    public ProspectService(PessoaFisicaRepository pessoaFisicaRepository) {
+    public PessoaFisicaService(PessoaFisicaRepository pessoaFisicaRepository) {
         this.pessoaFisicaRepository = pessoaFisicaRepository;
     }
 

@@ -2,7 +2,7 @@ package com.example.prospect.controller;
 
 import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.entity.input.EntradaPessoaFisica;
-import com.example.prospect.service.ProspectService;
+import com.example.prospect.service.PessoaFisicaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Prospect", description = "APIs de apoio à prospecção de clientes")
+@Tag(name = "Pessoa Física", description = "APIs de apoio à prospecção de clientes pessoa física")
 @RestController
 @RequestMapping("/api/v1")
-public class ProspectController {
+public class PessoaFisicaController {
 
-    private final ProspectService prospectService;
+    private final PessoaFisicaService prospectService;
 
     @Autowired
-    public ProspectController(ProspectService prospectService) {
+    public PessoaFisicaController(PessoaFisicaService prospectService) {
         this.prospectService = prospectService;
     }
 
