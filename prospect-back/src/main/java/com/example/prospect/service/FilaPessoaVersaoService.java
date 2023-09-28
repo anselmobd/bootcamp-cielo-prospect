@@ -10,6 +10,7 @@ import com.example.prospect.util.PessoaVersao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -27,19 +28,34 @@ public class FilaPessoaVersaoService {
     }
 
     public PessoaVersao retiraPessoaVersao() {
-        PessoaVersao pessoaVersao = filaPessoaVersao.outFila();
-        if (pessoaVersao == null) {
-            throw new PessoaNotFoundException("Fila está vazia");
-        }
+        boolean cadastroAlterado = false;
+        PessoaVersao pessoaVersao = null;
 
-        String cadastro = pessoaVersao.getCadastro();
-        Optional<PessoaFisica> pessoaFisica =
-                pessoaFisicaRepository.findPessoaFisicaByCpf(cadastro);
-        if (pessoaFisica.isEmpty()) {
-            Optional<PessoaJuridica> pessoaJuridica =
-                    pessoaJuridicaRepository.findPessoaJuridicaByCnpj(cadastro);
-            if (pessoaJuridica.isEmpty()) {
-                throw new PessoaNotFoundException("Pessoa não encontrada com CPF/CNPJ: " + cadastro);
+        while (!cadastroAlterado) {
+            pessoaVersao = filaPessoaVersao.outFila();
+            if (pessoaVersao == null) {
+                throw new PessoaNotFoundException("Fila está vazia");
+            }
+
+            String cadastro = pessoaVersao.getCadastro();
+            Date versao = pessoaVersao.getVersao();
+
+            Optional<PessoaFisica> pessoaFisica =
+                    pessoaFisicaRepository.findPessoaFisicaByCpf(cadastro);
+            if (pessoaFisica.isPresent()) {
+                if (!versao.equals(pessoaFisica.get().getVersao())) {
+                    cadastroAlterado = true;
+                }
+            } else {
+                Optional<PessoaJuridica> pessoaJuridica =
+                        pessoaJuridicaRepository.findPessoaJuridicaByCnpj(cadastro);
+                if (pessoaJuridica.isPresent()) {
+                    if (!versao.equals(pessoaJuridica.get().getVersao())) {
+                        cadastroAlterado = true;
+                    }
+                } else {
+                    throw new PessoaNotFoundException("Pessoa não encontrada com CPF/CNPJ: " + cadastro);
+                }
             }
         }
 
