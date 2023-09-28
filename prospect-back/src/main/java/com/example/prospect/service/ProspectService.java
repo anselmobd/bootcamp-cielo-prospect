@@ -1,10 +1,12 @@
 package com.example.prospect.service;
 
 import com.example.prospect.entity.PessoaFisica;
+import com.example.prospect.entity.PessoaJuridica;
 import com.example.prospect.exception.PessoaConflictException;
 import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaFisicaRepository;
 import com.example.prospect.entity.input.EntradaPessoaFisica;
+import com.example.prospect.repository.PessoaJuridicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +20,15 @@ public class ProspectService {
 
     private final PessoaFisicaRepository pessoaFisicaRepository;
 
+    private final PessoaJuridicaRepository pessoaJuridicaRepository;
+
     @Autowired
-    public ProspectService(PessoaFisicaRepository pessoaFisicaRepository) {
+    public ProspectService(
+            PessoaFisicaRepository pessoaFisicaRepository,
+            PessoaJuridicaRepository pessoaJuridicaRepository
+    ) {
         this.pessoaFisicaRepository = pessoaFisicaRepository;
+        this.pessoaJuridicaRepository = pessoaJuridicaRepository;
     }
 
     public List<PessoaFisica> getPessoasFisicas() {
@@ -70,4 +78,9 @@ public class ProspectService {
 
         return this.pessoaFisicaRepository.save(atualizaPessoaFisica);
     }
+
+    public List<PessoaJuridica> getPessoasJuridicas() {
+        return this.pessoaJuridicaRepository.findAll();
+    }
+
 }
