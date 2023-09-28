@@ -10,7 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.CurrentTimestamp;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.Date;
 
 @Getter
 @AllArgsConstructor
@@ -24,6 +27,10 @@ public class PessoaJuridica {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Schema(example = "42")
     private long id;
+
+    @CurrentTimestamp
+    @Schema(example = "2023-09-28T23:14:51.204+00:00")
+    private Date versao;
 
     @NotBlank(message = "CNPJ é obrigatório")
     @Size(min = 14, max = 14, message = "CNPJ deve ter 14 dígitos")
