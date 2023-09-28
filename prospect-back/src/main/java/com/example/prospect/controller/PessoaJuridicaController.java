@@ -1,19 +1,22 @@
 package com.example.prospect.controller;
 
+import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.entity.PessoaJuridica;
+import com.example.prospect.entity.input.EntradaPessoaFisica;
+import com.example.prospect.entity.input.EntradaPessoaJuridica;
 import com.example.prospect.service.PessoaJuridicaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,4 +50,58 @@ public class PessoaJuridicaController {
     public List<PessoaJuridica> getPessoasJuridicas() {
         return this.pessoaJuridicaService.getPessoasJuridicas();
     }
+
+    @Operation(
+            summary = "Cria pessoa jurídica",
+            description = "Insere dados de uma pessoa jurídica.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Inserção executada com sucesso",
+                    content = {@Content(
+                            schema = @Schema(implementation = PessoaJuridica.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Conflito de informações no banco de dados",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-27T23:11:36.714+00:00\"," +
+                                            "\"status\": 409," +
+                                            "\"error\": \"Conflict\"," +
+                                            "\"message\": \"Já existe pessoa jurídica com CNPJ: 12345678000142\"," +
+                                            "\"path\": \"/api/v1/pessoa_juridica\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "406",
+                    description = "Valores não válidos",
+                    content = { @Content(
+                            schema = @Schema(),
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"status\": 406," +
+                                            "\"message\": \"Erro de validação do objeto\"," +
+                                            "\"errors\": [" +
+                                            "\"mcc: MCC deve ter no máximo 4 caracteres\"," +
+                                            "\"razao_social: Razão social é obrigatória\"" +
+                                            "]" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
+    @PostMapping
+    public PessoaJuridica addPessoaJuridica(@Valid @RequestBody EntradaPessoaJuridica pessoaJuridica) {
+        return this.pessoaJuridicaService.addPessoaJuridica(pessoaJuridica);
+    }
+
 }
