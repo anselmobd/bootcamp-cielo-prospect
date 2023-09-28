@@ -41,7 +41,7 @@ public class PessoaJuridica {
     @NotBlank(message = "CPF do contato do estabelecimento é obrigatório")
     @Size(min = 11, max = 11, message = "CPF do contato do estabelecimento deve ter 11 dígitos")
     @Pattern(regexp = "^\\d+$", message = "CPF deve ser totalmente numérico")
-    @Column(unique = true, length = 11)
+    @Column(length = 11)
     @Schema(example = "00987654321")
     private String cpf;
 
