@@ -1,6 +1,5 @@
 package com.example.prospect.service;
 
-import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.entity.PessoaJuridica;
 import com.example.prospect.entity.input.EntradaPessoaJuridica;
 import com.example.prospect.exception.PessoaConflictException;
