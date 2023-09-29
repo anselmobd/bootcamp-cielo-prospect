@@ -1,0 +1,15 @@
+{
+  "short_name": "Prospect",
+  "name": "Prospecção de clientes para Cielo",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
