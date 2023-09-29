@@ -31,11 +31,10 @@ public class FilaPessoaVersaoService {
     }
 
     public List<PessoaSuperclass> retiraPessoaVersao() {
-//        boolean pegaProximoNaFila = true;
         PessoaVersao pessoaVersao;
         List<PessoaSuperclass> listPessoa = new LinkedList<>();
 
-//        while (pegaProximoNaFila) {
+        // Consome a fila até achar uma entrada válida ou esvaziar a fila
         while (true) {
             pessoaVersao = filaPessoaVersao.outFila();
             if (pessoaVersao == null) {
@@ -44,29 +43,27 @@ public class FilaPessoaVersaoService {
 
             String cadastro = pessoaVersao.getCadastro();
             Date versao = pessoaVersao.getVersao();
-
-            Optional<PessoaFisica> pessoaFisica =
-                    pessoaFisicaRepository.findPessoaFisicaByCpf(cadastro);
-            if (pessoaFisica.isPresent()) {
-                if (versao.equals(pessoaFisica.get().getVersao())) {
-//                    pegaProximoNaFila = false;
-//                    return new PessoaContainer(pessoaFisica.get(), null);
-                    listPessoa.add(pessoaFisica.get());
-                    return listPessoa;
+            if (cadastro.length() == 11) {
+                Optional<PessoaFisica> opcionalPessoaFisica =
+                        pessoaFisicaRepository.findPessoaFisicaByCpf(cadastro);
+                if (opcionalPessoaFisica.isPresent()) {
+                    PessoaFisica pessoaFisica = opcionalPessoaFisica.get();
+                    if (versao.equals(pessoaFisica.getVersao())) {
+                        listPessoa.add(pessoaFisica);
+                        return listPessoa;
+                    }
                 }
             } else {
-                Optional<PessoaJuridica> pessoaJuridica =
+                Optional<PessoaJuridica> opcionalPessoaJuridica =
                         pessoaJuridicaRepository.findPessoaJuridicaByCnpj(cadastro);
-                if (pessoaJuridica.isPresent()) {
-                    if (versao.equals(pessoaJuridica.get().getVersao())) {
-//                        pegaProximoNaFila = false;
-//                        return new PessoaContainer(null, pessoaJuridica.get());
-                        listPessoa.add(pessoaJuridica.get());
+                if (opcionalPessoaJuridica.isPresent()) {
+                    PessoaJuridica pessoaJuridica = opcionalPessoaJuridica.get();
+                    if (versao.equals(pessoaJuridica.getVersao())) {
+                        listPessoa.add(pessoaJuridica);
                         return listPessoa;
                     }
                 }
             }
         }
-//        return pessoaVersao;
     }
 }
