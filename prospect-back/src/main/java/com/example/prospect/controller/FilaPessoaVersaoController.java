@@ -2,9 +2,11 @@ package com.example.prospect.controller;
 
 import com.example.prospect.entity.superclass.PessoaSuperclass;
 import com.example.prospect.service.FilaPessoaVersaoService;
+import com.example.prospect.util.PessoaVersao;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -84,5 +86,40 @@ public class FilaPessoaVersaoController {
     @GetMapping
     public PessoaSuperclass retiraPessoaVersao() {
         return filaPessoaVersaoService.retiraPessoaVersao();
+    }
+
+    @Operation(
+            summary = "Consulta próxima informação na fila",
+            description = "Consulta próxima informação na fila sem retirar."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Consulta executada com sucesso",
+                    content = {@Content(
+                            schema = @Schema(implementation = PessoaVersao.class),
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "A fila está vazia",
+                    content = { @Content(
+                            examples = {@ExampleObject(
+                                    value = "{" +
+                                            "\"timestamp\": \"2023-09-28T22:37:56.551+00:00\"," +
+                                            "\"status\": 404," +
+                                            "\"error\": \"Not Found\"," +
+                                            "\"message\": \"Fila está vazia\"," +
+                                            "\"path\": \"/api/v1/fila_pessoa\"" +
+                                            "}"
+                            )},
+                            mediaType = MediaType.APPLICATION_JSON_VALUE
+                    )}
+            )
+    })
+    @GetMapping("/peek")
+    public PessoaVersao peekPessoaVersao() {
+        return filaPessoaVersaoService.peekPessoaVersao();
     }
 }

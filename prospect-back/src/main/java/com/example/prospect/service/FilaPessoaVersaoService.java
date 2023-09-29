@@ -61,4 +61,12 @@ public class FilaPessoaVersaoService {
             }
         }
     }
+
+    public PessoaVersao peekPessoaVersao() {
+        PessoaVersao pessoaVersao = filaPessoaVersao.peekFila();
+        if (pessoaVersao == null) {
+            throw new PessoaNotFoundException("Fila está vazia");
+        }
+        return pessoaVersao;
+    }
 }
