@@ -118,7 +118,7 @@ public class FilaPessoaVersaoController {
                     )}
             )
     })
-    @GetMapping("/peek")
+    @GetMapping("/consulta")
     public PessoaVersao peekPessoaVersao() {
         return filaPessoaVersaoService.peekPessoaVersao();
     }
