@@ -1,5 +1,6 @@
 package com.example.prospect.service;
 
+import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.entity.PessoaJuridica;
 import com.example.prospect.entity.input.EntradaPessoaJuridica;
 import com.example.prospect.exception.PessoaConflictException;
@@ -53,12 +54,13 @@ public class PessoaJuridicaService {
         return savedPessoaJuridica;
     }
 
-    public void deletePessoaJuridica(long id) throws PessoaNotFoundException {
-        boolean exists = this.pessoaJuridicaRepository.existsById(id);
-        if (!exists) {
+    public PessoaJuridica deletePessoaJuridica(long id) throws PessoaNotFoundException {
+        Optional<PessoaJuridica> optionalPessoaJuridica = this.pessoaJuridicaRepository.findById(id);
+        if (optionalPessoaJuridica.isEmpty())
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
-        }
-        this.pessoaJuridicaRepository.deleteById(id);
+        PessoaJuridica pessoaJuridica = optionalPessoaJuridica.get();
+        this.pessoaJuridicaRepository.delete(pessoaJuridica);
+        return pessoaJuridica;
     }
 
     public PessoaJuridica updatePessoaJuridica(

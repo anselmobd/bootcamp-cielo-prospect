@@ -169,12 +169,12 @@ public class PessoaJuridicaController {
             )
     })
     @DeleteMapping("/{id}")
-    public void deletePessoaJuridica(
+    public PessoaJuridica deletePessoaJuridica(
             @PathVariable
             @Parameter(name = "id", description = "Id da pessoa jurídica", example = "1")
             long id
     ) {
-        this.pessoaJuridicaService.deletePessoaJuridica(id);
+        return this.pessoaJuridicaService.deletePessoaJuridica(id);
     }
 
     @Operation(
