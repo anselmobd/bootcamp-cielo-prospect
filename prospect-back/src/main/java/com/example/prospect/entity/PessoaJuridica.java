@@ -1,5 +1,6 @@
 package com.example.prospect.entity;
 
+import com.example.prospect.entity.superclass.PessoaSuperclass;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -21,7 +22,7 @@ import java.util.Date;
 @Validated
 @Schema(name = "Pessoa jurídica", description = "Dados de armazenamento de pessoa jurídica")
 @Entity
-public class PessoaJuridica {
+public class PessoaJuridica extends PessoaSuperclass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

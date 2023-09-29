@@ -2,6 +2,7 @@ package com.example.prospect.service;
 
 import com.example.prospect.entity.PessoaFisica;
 import com.example.prospect.entity.PessoaJuridica;
+import com.example.prospect.entity.superclass.PessoaSuperclass;
 import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaFisicaRepository;
 import com.example.prospect.repository.PessoaJuridicaRepository;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,11 +30,13 @@ public class FilaPessoaVersaoService {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
     }
 
-    public PessoaVersao retiraPessoaVersao() {
-        boolean pegaProximoNaFila = true;
-        PessoaVersao pessoaVersao = null;
+    public List<PessoaSuperclass> retiraPessoaVersao() {
+//        boolean pegaProximoNaFila = true;
+        PessoaVersao pessoaVersao;
+        List<PessoaSuperclass> listPessoa = new LinkedList<>();
 
-        while (pegaProximoNaFila) {
+//        while (pegaProximoNaFila) {
+        while (true) {
             pessoaVersao = filaPessoaVersao.outFila();
             if (pessoaVersao == null) {
                 throw new PessoaNotFoundException("Fila está vazia");
@@ -44,18 +49,24 @@ public class FilaPessoaVersaoService {
                     pessoaFisicaRepository.findPessoaFisicaByCpf(cadastro);
             if (pessoaFisica.isPresent()) {
                 if (versao.equals(pessoaFisica.get().getVersao())) {
-                    pegaProximoNaFila = false;
+//                    pegaProximoNaFila = false;
+//                    return new PessoaContainer(pessoaFisica.get(), null);
+                    listPessoa.add(pessoaFisica.get());
+                    return listPessoa;
                 }
             } else {
                 Optional<PessoaJuridica> pessoaJuridica =
                         pessoaJuridicaRepository.findPessoaJuridicaByCnpj(cadastro);
                 if (pessoaJuridica.isPresent()) {
                     if (versao.equals(pessoaJuridica.get().getVersao())) {
-                        pegaProximoNaFila = false;
+//                        pegaProximoNaFila = false;
+//                        return new PessoaContainer(null, pessoaJuridica.get());
+                        listPessoa.add(pessoaJuridica.get());
+                        return listPessoa;
                     }
                 }
             }
         }
-        return pessoaVersao;
+//        return pessoaVersao;
     }
 }
