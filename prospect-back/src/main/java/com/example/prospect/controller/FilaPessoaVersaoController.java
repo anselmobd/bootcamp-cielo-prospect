@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @Tag(name = "Fila de pessoas", description = "APIs de apoio à prospecção de clientes")
 @RestController
 @RequestMapping("/api/v1/fila_pessoa")
@@ -39,26 +37,28 @@ public class FilaPessoaVersaoController {
                     content = {@Content(
                             examples = {
                                     @ExampleObject(
-                                        value = "{" +
-                                                "\"id\": 42," +
-                                                "\"versao\": \"2023-09-28T23:14:51.204Z\"," +
-                                                "\"cpf\": \"00987654321\"," +
-                                                "\"mcc\": \"a1b2\"," +
-                                                "\"nome\": \"Fulano de Tal\"," +
-                                                "\"email\": \"fulano.tal@dominio.ccc\"" +
-                                                "}", name = "Pessoa Física"
+                                            name = "Pessoa Física",
+                                            value = "{" +
+                                                    "\"id\": 42," +
+                                                    "\"versao\": \"2023-09-28T23:14:51.204Z\"," +
+                                                    "\"cpf\": \"00987654321\"," +
+                                                    "\"mcc\": \"a1b2\"," +
+                                                    "\"nome\": \"Fulano de Tal\"," +
+                                                    "\"email\": \"fulano.tal@dominio.ccc\"" +
+                                                    "}"
                                     ),
                                     @ExampleObject(
-                                        value = "{" +
-                                                "\"id\": 42," +
-                                                "\"versao\": \"2023-09-28T23:14:51.204Z\"," +
-                                                "\"cnpj\": \"12345678000142\"," +
-                                                "\"razao_social\": \"Empresa Ltda.\"," +
-                                                "\"mcc\": \"a1b2\"," +
-                                                "\"cpf\": \"00987654321\"," +
-                                                "\"nome\": \"Fulano de Tal\"," +
-                                                "\"email\": \"fulano.tal@empresa.ccc\"" +
-                                                "}", name = "Pessoa Jurídica"
+                                            name = "Pessoa Jurídica",
+                                            value = "{" +
+                                                    "\"id\": 42," +
+                                                    "\"versao\": \"2023-09-28T23:14:51.204Z\"," +
+                                                    "\"cnpj\": \"12345678000142\"," +
+                                                    "\"razao_social\": \"Empresa Ltda.\"," +
+                                                    "\"mcc\": \"a1b2\"," +
+                                                    "\"cpf\": \"00987654321\"," +
+                                                    "\"nome\": \"Fulano de Tal\"," +
+                                                    "\"email\": \"fulano.tal@empresa.ccc\"" +
+                                                    "}"
                                     )
                             },
                             mediaType = MediaType.APPLICATION_JSON_VALUE
