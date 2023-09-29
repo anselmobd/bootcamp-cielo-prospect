@@ -41,19 +41,19 @@ public class FilaPessoaVersaoService {
             String cadastro = pessoaVersao.getCadastro();
             Date versao = pessoaVersao.getVersao();
             if (cadastro.length() == 11) {
-                Optional<PessoaFisica> opcionalPessoaFisica =
+                Optional<PessoaFisica> optionalPessoaFisica =
                         pessoaFisicaRepository.findPessoaFisicaByCpf(cadastro);
-                if (opcionalPessoaFisica.isPresent()) {
-                    PessoaFisica pessoaFisica = opcionalPessoaFisica.get();
+                if (optionalPessoaFisica.isPresent()) {
+                    PessoaFisica pessoaFisica = optionalPessoaFisica.get();
                     if (versao.equals(pessoaFisica.getVersao())) {
                         return pessoaFisica;
                     }
                 }
             } else {
-                Optional<PessoaJuridica> opcionalPessoaJuridica =
+                Optional<PessoaJuridica> optionalPessoaJuridica =
                         pessoaJuridicaRepository.findPessoaJuridicaByCnpj(cadastro);
-                if (opcionalPessoaJuridica.isPresent()) {
-                    PessoaJuridica pessoaJuridica = opcionalPessoaJuridica.get();
+                if (optionalPessoaJuridica.isPresent()) {
+                    PessoaJuridica pessoaJuridica = optionalPessoaJuridica.get();
                     if (versao.equals(pessoaJuridica.getVersao())) {
                         return pessoaJuridica;
                     }
