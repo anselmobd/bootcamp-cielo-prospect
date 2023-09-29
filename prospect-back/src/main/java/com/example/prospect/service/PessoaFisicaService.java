@@ -60,12 +60,6 @@ public class PessoaFisicaService {
         PessoaFisica pessoaFisica = optionalPessoaFisica.get();
         this.pessoaFisicaRepository.delete(pessoaFisica);
         return pessoaFisica;
-//
-//        boolean exists = this.pessoaFisicaRepository.existsById(id);
-//        if (!exists) {
-//            throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
-//        }
-//        this.pessoaFisicaRepository.deleteById(id);
     }
 
     public PessoaFisica updatePessoaFisica(
