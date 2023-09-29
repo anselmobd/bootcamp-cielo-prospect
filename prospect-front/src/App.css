@@ -1,3 +1,9 @@
 .App {
   /*text-align: center;*/
 }
+.content-margin {
+    margin-top: 80px; /* Ajuste a altura conforme necessário */
+}
+.titulo_central {
+    text-align: center;
+}
