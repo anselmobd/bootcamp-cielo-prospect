@@ -28,10 +28,10 @@ public class FilaPessoaVersaoService {
     }
 
     public PessoaVersao retiraPessoaVersao() {
-        boolean cadastroAlterado = false;
+        boolean buscaNaFila = true;
         PessoaVersao pessoaVersao = null;
 
-        while (!cadastroAlterado) {
+        while (buscaNaFila) {
             pessoaVersao = filaPessoaVersao.outFila();
             if (pessoaVersao == null) {
                 throw new PessoaNotFoundException("Fila está vazia");
@@ -43,15 +43,15 @@ public class FilaPessoaVersaoService {
             Optional<PessoaFisica> pessoaFisica =
                     pessoaFisicaRepository.findPessoaFisicaByCpf(cadastro);
             if (pessoaFisica.isPresent()) {
-                if (!versao.equals(pessoaFisica.get().getVersao())) {
-                    cadastroAlterado = true;
+                if (versao.equals(pessoaFisica.get().getVersao())) {
+                    buscaNaFila = false;
                 }
             } else {
                 Optional<PessoaJuridica> pessoaJuridica =
                         pessoaJuridicaRepository.findPessoaJuridicaByCnpj(cadastro);
                 if (pessoaJuridica.isPresent()) {
-                    if (!versao.equals(pessoaJuridica.get().getVersao())) {
-                        cadastroAlterado = true;
+                    if (versao.equals(pessoaJuridica.get().getVersao())) {
+                        buscaNaFila = false;
                     }
                 } else {
                     throw new PessoaNotFoundException("Pessoa não encontrada com CPF/CNPJ: " + cadastro);
