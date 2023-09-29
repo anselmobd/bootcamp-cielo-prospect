@@ -76,6 +76,12 @@ public class PessoaFisicaService {
             throw new PessoaConflictException("Já existe pessoa física com CPF: " + cpf);
         }
         atualizaPessoaFisica.setId(id);
-        return this.pessoaFisicaRepository.save(atualizaPessoaFisica);
+        PessoaFisica savedPessoaFisica = this.pessoaFisicaRepository.save(atualizaPessoaFisica);
+        PessoaVersao pessoaVersao = new PessoaVersao(
+                savedPessoaFisica.getCpf(),
+                savedPessoaFisica.getVersao()
+        );
+        filaPessoaVersao.inFila(pessoaVersao);
+        return savedPessoaFisica;
     }
 }
