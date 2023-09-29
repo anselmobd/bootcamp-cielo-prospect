@@ -5,6 +5,8 @@ import com.example.prospect.entity.input.EntradaPessoaJuridica;
 import com.example.prospect.exception.PessoaConflictException;
 import com.example.prospect.exception.PessoaNotFoundException;
 import com.example.prospect.repository.PessoaJuridicaRepository;
+import com.example.prospect.util.FilaPessoaVersao;
+import com.example.prospect.util.PessoaVersao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,12 @@ import java.util.Optional;
 @Service
 public class PessoaJuridicaService {
 
+    private final FilaPessoaVersao filaPessoaVersao;
     private final PessoaJuridicaRepository pessoaJuridicaRepository;
 
     @Autowired
-    public PessoaJuridicaService(PessoaJuridicaRepository pessoaJuridicaRepository) {
+    public PessoaJuridicaService(FilaPessoaVersao filaPessoaVersao, PessoaJuridicaRepository pessoaJuridicaRepository) {
+        this.filaPessoaVersao = filaPessoaVersao;
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
     }
 
@@ -40,7 +44,13 @@ public class PessoaJuridicaService {
         if (exists) {
             throw new PessoaConflictException("Já existe pessoa jurídica com CNPJ: " + cnpj);
         }
-        return this.pessoaJuridicaRepository.save(pessoaJuridica);
+        PessoaJuridica savedPessoaJuridica = this.pessoaJuridicaRepository.save(pessoaJuridica);
+        PessoaVersao pessoaVersao = new PessoaVersao(
+                savedPessoaJuridica.getCnpj(),
+                savedPessoaJuridica.getVersao()
+        );
+        filaPessoaVersao.inFila(pessoaVersao);
+        return savedPessoaJuridica;
     }
 
     public void deletePessoaJuridica(long id) throws PessoaNotFoundException {
@@ -65,9 +75,14 @@ public class PessoaJuridicaService {
         ) {
             throw new PessoaConflictException("Já existe pessoa jurídica com CNPJ: " + cnpj);
         }
-
         atualizaPessoaJuridica.setId(id);
-        return this.pessoaJuridicaRepository.save(atualizaPessoaJuridica);
+        PessoaJuridica savedPessoaJuridica = this.pessoaJuridicaRepository.save(atualizaPessoaJuridica);
+        PessoaVersao pessoaVersao = new PessoaVersao(
+                savedPessoaJuridica.getCnpj(),
+                savedPessoaJuridica.getVersao()
+        );
+        filaPessoaVersao.inFila(pessoaVersao);
+        return savedPessoaJuridica;
     }
 
 }
