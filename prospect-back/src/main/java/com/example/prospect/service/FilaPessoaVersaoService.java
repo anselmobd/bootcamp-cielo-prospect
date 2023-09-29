@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,9 +28,8 @@ public class FilaPessoaVersaoService {
         this.pessoaJuridicaRepository = pessoaJuridicaRepository;
     }
 
-    public List<PessoaSuperclass> retiraPessoaVersao() {
+    public PessoaSuperclass retiraPessoaVersao() {
         PessoaVersao pessoaVersao;
-        List<PessoaSuperclass> listPessoa = new LinkedList<>();
 
         // Consome a fila até achar uma entrada válida ou esvaziar a fila
         while (true) {
@@ -49,8 +46,7 @@ public class FilaPessoaVersaoService {
                 if (opcionalPessoaFisica.isPresent()) {
                     PessoaFisica pessoaFisica = opcionalPessoaFisica.get();
                     if (versao.equals(pessoaFisica.getVersao())) {
-                        listPessoa.add(pessoaFisica);
-                        return listPessoa;
+                        return pessoaFisica;
                     }
                 }
             } else {
@@ -59,8 +55,7 @@ public class FilaPessoaVersaoService {
                 if (opcionalPessoaJuridica.isPresent()) {
                     PessoaJuridica pessoaJuridica = opcionalPessoaJuridica.get();
                     if (versao.equals(pessoaJuridica.getVersao())) {
-                        listPessoa.add(pessoaJuridica);
-                        return listPessoa;
+                        return pessoaJuridica;
                     }
                 }
             }

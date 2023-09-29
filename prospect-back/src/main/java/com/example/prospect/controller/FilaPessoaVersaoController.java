@@ -39,17 +39,17 @@ public class FilaPessoaVersaoController {
                     content = {@Content(
                             examples = {
                                     @ExampleObject(
-                                        value = "[{" +
+                                        value = "{" +
                                                 "\"id\": 42," +
                                                 "\"versao\": \"2023-09-28T23:14:51.204Z\"," +
                                                 "\"cpf\": \"00987654321\"," +
                                                 "\"mcc\": \"a1b2\"," +
                                                 "\"nome\": \"Fulano de Tal\"," +
                                                 "\"email\": \"fulano.tal@dominio.ccc\"" +
-                                                "}]", name = "Pessoa Física"
+                                                "}", name = "Pessoa Física"
                                     ),
                                     @ExampleObject(
-                                        value = "[{" +
+                                        value = "{" +
                                                 "\"id\": 42," +
                                                 "\"versao\": \"2023-09-28T23:14:51.204Z\"," +
                                                 "\"cnpj\": \"12345678000142\"," +
@@ -58,7 +58,7 @@ public class FilaPessoaVersaoController {
                                                 "\"cpf\": \"00987654321\"," +
                                                 "\"nome\": \"Fulano de Tal\"," +
                                                 "\"email\": \"fulano.tal@empresa.ccc\"" +
-                                                "}]", name = "Pessoa Jurídica"
+                                                "}", name = "Pessoa Jurídica"
                                     )
                             },
                             mediaType = MediaType.APPLICATION_JSON_VALUE
@@ -82,7 +82,7 @@ public class FilaPessoaVersaoController {
             )
     })
     @GetMapping
-    public List<PessoaSuperclass> retiraPessoaVersao() {
+    public PessoaSuperclass retiraPessoaVersao() {
         return filaPessoaVersaoService.retiraPessoaVersao();
     }
 }
