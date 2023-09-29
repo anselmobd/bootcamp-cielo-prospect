@@ -17,4 +17,8 @@ public class FilaPessoaVersao {
     public PessoaVersao outFila() {
         return fila.poll();
     }
+
+    public PessoaVersao peekFila() {
+        return this.fila.peek();
+    }
 }
