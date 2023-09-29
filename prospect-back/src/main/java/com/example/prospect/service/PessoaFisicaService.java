@@ -53,12 +53,19 @@ public class PessoaFisicaService {
         return savedPessoaFisica;
     }
 
-    public void deletePessoaFisica(long id) throws PessoaNotFoundException {
-        boolean exists = this.pessoaFisicaRepository.existsById(id);
-        if (!exists) {
+    public PessoaFisica deletePessoaFisica(long id) throws PessoaNotFoundException {
+        Optional<PessoaFisica> optionalPessoaFisica = this.pessoaFisicaRepository.findById(id);
+        if (optionalPessoaFisica.isEmpty())
             throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
-        }
-        this.pessoaFisicaRepository.deleteById(id);
+        PessoaFisica pessoaFisica = optionalPessoaFisica.get();
+        this.pessoaFisicaRepository.delete(pessoaFisica);
+        return pessoaFisica;
+//
+//        boolean exists = this.pessoaFisicaRepository.existsById(id);
+//        if (!exists) {
+//            throw new PessoaNotFoundException("Pessoa não encontrada com id: " + id);
+//        }
+//        this.pessoaFisicaRepository.deleteById(id);
     }
 
     public PessoaFisica updatePessoaFisica(

@@ -168,12 +168,12 @@ public class PessoaFisicaController {
             )
     })
     @DeleteMapping("/{id}")
-    public void deletePessoaFisica(
+    public PessoaFisica deletePessoaFisica(
         @PathVariable
         @Parameter(name = "id", description = "Id da pessoa física", example = "1")
         long id
     ) {
-        this.pessoaFisicaService.deletePessoaFisica(id);
+        return this.pessoaFisicaService.deletePessoaFisica(id);
     }
 
     @Operation(
