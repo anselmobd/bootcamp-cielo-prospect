@@ -15,9 +15,6 @@ spring:
       settings:
         trace: false
         web-allow-others: false
-  web:
-    cors:
-      allow-origin: *
 server:
   error:
     include-message: always
