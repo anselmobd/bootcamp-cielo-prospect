@@ -4,11 +4,9 @@ import './ProspectaCliente.css'
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import PeekPessoa from "./PeekPessoa";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
-import {json} from "react-router-dom";
 
 class ProspectaCliente extends React.Component {
 
@@ -34,7 +32,7 @@ class ProspectaCliente extends React.Component {
 
     componentDidMount() {
         this.initStatePessoa();
-        this.getPessoaVersao();
+        this.buscaPessoaVersao();
     }
 
     initStatePessoa = () => {
@@ -65,33 +63,51 @@ class ProspectaCliente extends React.Component {
         );
     }
 
-    getPessoaVersao = () => {
+    buscaPessoaVersao = () => {
         this.initStatePessoaVersao();
-        axios
-            .get("http://localhost:8080/api/v1/pessoa_versao/peek")
+        axios.get("http://localhost:8080/api/v1/pessoa_versao/consulta")
             .then(res => {
+                console.log("consuta: algo na fila");
                 console.log(res);
                 let dados = res.data;
                 if (dados.length > 0) {
-                    this.setState({pessoa_versao: dados[0]});
+                    this.setState({pessoa_versao: dados});
                 }
             })
-            .catch(res => {
-                console.log(res);
-                console.log("nada na fila");
+            .catch(err => {
+                console.log(err);
+                console.log("consuta: nada na fila");
             });
     }
 
     fetchPessoaDados = () => {
-        this.getPessoaVersao();
         this.initStatePessoa();
-        axios.get("http://localhost:8080/api/v1/pessoa_fisica")
-            .then(res => {
-                let dados = res.data;
-                if (dados.length > 0) {
-                    this.setState({pessoa: dados[0]});
+        fetch("http://localhost:8080/api/v1/pessoa_fisica")
+            .then(response => {
+                console.log(response);
+                response.json();
+            })
+            .then(data => {
+                if (data.length > 0) {
+                    this.setState({pessoa: data[0]});
                 }
             });
+
+        // axios.get("http://localhost:8080/api/v1/pessoa_fisica")
+        //     .then(res => {
+        //         console.log("retira: algo na fila");
+        //         console.log(res);
+        //         console.log("retira: res.data");
+        //         console.log(res);
+        //         let dados = res.data;
+        //         if (dados.length > 0) {
+        //             this.setState({pessoa: dados[0]});
+        //         }
+        //     })
+        //     .catch(res => {
+        //         console.log(res);
+        //         console.log("retira: nada na fila");
+        //     });
     }
 
     render() {
@@ -101,21 +117,20 @@ class ProspectaCliente extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <p>Consult informação na fila</p>
+                        <p>Consulta informação na fila</p>
                         <Card style={{ width: '24rem' }}>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>
-                                    {this.state.pessoa_versao.cadastro ? (
-                                        <span>Cadastro: </span>
-                                    ) : (
-                                        <b>Fila vazia</b>
-                                    )}<b>{this.state.pessoa_versao.cadastro}</b>
+                                    <span>Cadastro: </span><b>{this.state.pessoa_versao.cadastro}</b>
                                 </ListGroup.Item>
                             </ListGroup>
                         </Card>
                     </Col>
                     <Col className="titulo_central">
                         <p>&nbsp;</p>
+                        <Button variant="primary" size="lg" onClick={this.buscaPessoaVersao}>
+                            Consulta
+                        </Button>
                         <Button variant="primary" size="lg" onClick={this.fetchPessoaDados}>
                             Prospecta
                         </Button>
