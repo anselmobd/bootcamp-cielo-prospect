@@ -31,21 +31,21 @@ Os cadastros estão persistidos em memória, utilizando
 H2, e a fila está implementada em memória utilizando
 java.util.Queue.
 
-Além dos campos indicados na especificação os dois
+Além dos campos indicados na especificação dos dois
 cadastros de pessoas, foram criados outros dois campos.
-Um "id" e um "versao", qie recebe a data da ultima 
+Um de "id" e outro de "versao", que recebe a data da última 
 gravação.
 
-O campo versão é necessário para atender a funcionalidade
+O campo "versao" é necessário para atender a funcionalidade
 de passar uma pessoa com cadastro editado para o final da
 fila. A fila FIFO não sofre nenhuma manutenção além das
 previstas pelo padrão. Então, no registro da pessoa da 
-fila além de ser informado o número de cadastro dessa
-pessoa é informada a versão do cadastro que gerou aquela
+fila, além de ser informado o número de cadastro dessa
+pessoa, é informada a versão do cadastro que gerou aquela
 entrada. Ao ser consumida a fila, se a versão da pessoa
 lida na fila não bate com a versão atual do cadastro desta,
 esse item da fila é descartado, pois essa pessoa, com
-certeza está inserida novamente mais para o final da fila.
+certeza, está inserida novamente mais para o final da fila.
 
 ### Frontend
 
