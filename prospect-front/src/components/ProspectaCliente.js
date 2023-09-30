@@ -14,25 +14,25 @@ class ProspectaCliente extends React.Component {
         super(props);
         this.state = {
             pessoa: {
-                id: '1',
-                versao: '2',
-                cnpj: '3',
-                razao_social: '4',
-                cpf: '5',
-                mcc: '6',
-                nome: '7',
-                email: '8'
+                id: '42',
+                versao: '2023-09-28T23:14:51.204Z',
+                cnpj: '12345678901234',
+                razao_social: 'Empresa Ltda.',
+                cpf: '12345678901',
+                mcc: 'A1B2',
+                nome: 'Fulano de Tal',
+                email: 'fulano.tal@empresa.ccc'
             },
             pessoa_versao: {
-                cadastro: '111',
-                versao: '222',
+                cadastro: '12345678901',
+                versao: '2023-09-28T23:14:23.243Z',
             }
         }
     };
 
     componentDidMount() {
-        this.initStatePessoa();
-        this.buscaPessoaVersao();
+        // this.initStatePessoa();
+        // this.buscaPessoaVersao();
     }
 
     initStatePessoa = () => {
@@ -67,58 +67,40 @@ class ProspectaCliente extends React.Component {
         this.initStatePessoaVersao();
         axios.get("http://localhost:8080/api/v1/pessoa_versao/consulta")
             .then(res => {
-                console.log("consuta: algo na fila");
-                console.log(res);
                 let dados = res.data;
-                if (dados.length > 0) {
+                if (dados) {
                     this.setState({pessoa_versao: dados});
                 }
             })
             .catch(err => {
-                console.log(err);
-                console.log("consuta: nada na fila");
+                console.log("nada na fila");
             });
     }
 
     fetchPessoaDados = () => {
         this.initStatePessoa();
-        fetch("http://localhost:8080/api/v1/pessoa_fisica")
-            .then(response => {
-                console.log(response);
-                response.json();
-            })
-            .then(data => {
-                if (data.length > 0) {
-                    this.setState({pessoa: data[0]});
+        axios.get("http://localhost:8080/api/v1/pessoa_versao")
+            .then(res => {
+                let dados = res.data;
+                if (dados) {
+                    this.setState({pessoa: dados});
                 }
+            })
+            .catch(res => {
+                console.log("nada na fila");
             });
-
-        // axios.get("http://localhost:8080/api/v1/pessoa_fisica")
-        //     .then(res => {
-        //         console.log("retira: algo na fila");
-        //         console.log(res);
-        //         console.log("retira: res.data");
-        //         console.log(res);
-        //         let dados = res.data;
-        //         if (dados.length > 0) {
-        //             this.setState({pessoa: dados[0]});
-        //         }
-        //     })
-        //     .catch(res => {
-        //         console.log(res);
-        //         console.log("retira: nada na fila");
-        //     });
+        this.buscaPessoaVersao();
     }
 
     render() {
         return (
         <div>
-            <h1 className="titulo_central">Prospecta pessoa</h1>
+            <h1 className="titulo_central">Prospecta pessoa física ou jurídica</h1>
             <Container>
                 <Row>
                     <Col>
                         <p>Consulta informação na fila</p>
-                        <Card style={{ width: '24rem' }}>
+                        <Card style={{ width: '20rem' }}>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>
                                     <span>Cadastro: </span><b>{this.state.pessoa_versao.cadastro}</b>
@@ -128,9 +110,6 @@ class ProspectaCliente extends React.Component {
                     </Col>
                     <Col className="titulo_central">
                         <p>&nbsp;</p>
-                        <Button variant="primary" size="lg" onClick={this.buscaPessoaVersao}>
-                            Consulta
-                        </Button>
                         <Button variant="primary" size="lg" onClick={this.fetchPessoaDados}>
                             Prospecta
                         </Button>
@@ -138,7 +117,7 @@ class ProspectaCliente extends React.Component {
                     <Col>
                     {this.state.pessoa.cnpj ? (<div>
                         <p>Pessoa jurídica retirada da fila</p>
-                        <Card style={{ width: '24rem' }}>
+                        <Card style={{ width: '20rem' }}>
                             <ListGroup variant="flush">
                                 <ListGroup.Item>CNPJ: <b>{this.state.pessoa.cnpj}</b></ListGroup.Item>
                                 <ListGroup.Item>Razão Social: <b>{this.state.pessoa.razao_social}</b></ListGroup.Item>
