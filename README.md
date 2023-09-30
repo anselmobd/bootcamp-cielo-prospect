@@ -68,3 +68,15 @@ clientes.
   - http://localhost:8080/h2-console
 - Frontend
   - http://localhost:3000/
+
+## Agradecimentos
+
+Agradeço à Cielo e à Ada Tech, pela oportunidade de 
+ampliar meus conhecimentos, aos instrutores
+da sala 1050, Jaque Laurenti e Michael Tadeu, pela
+paciência e atenção em todos os momentos, a todos 
+os outros participantes de jornada, pelo companheirismo,
+e principalmente aos que fizeram parte da minha equipe 
+no primeiro desafio, Jennifer Carolinne e Mateus Fellipe,
+que gostei muito de conhecer melhor e são tecnicamente 
+muito capazes. 
